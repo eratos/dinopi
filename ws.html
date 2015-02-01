@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+    <head>
+        <title>Simple Display</title>
+    </head>
+    <script type="text/javascript">
+        var server = window.location.hostname;
+        var topics = {};
+        var wsUriC = "ws://"+server+":1880/admin/ws/myapp";
+        function wsConnectC() {
+            console.log("connect",wsUriC);
+            var ws = new WebSocket(wsUriC);
+            ws.onmessage = function(msg) {
+                var line = "";
+                console.log(msg.data);
+                line += "<p>"+msg.data+"</p>";
+                document.getElementById('messages').innerHTML = line;
+            }
+            ws.onopen = function() {
+                document.getElementById('status').innerHTML = "connected";
+                console.log("connected");
+            }
+            ws.onclose = function() {
+                document.getElementById('status').innerHTML = "not connected";
+                setTimeout(wsConnectC,1000);
+            }
+        }
+    </script>
+    <body onload="wsConnectC();" onunload="ws.disconnect;">
+        <h1><a href="scroll.html">Temperature Display</a></h1>
+        <div id="messages"></div>
+        <hr/>
+        <div id="status">unknown</div>
+    </body>
+</html>

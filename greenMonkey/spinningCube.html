@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Spinning Cube example</title>
+    <link rel='stylesheet' type='text/css' href='http://www.x3dom.org/x3dom/src/x3dom.css'></link>
+    <script type='text/javascript' src='http://www.x3dom.org/x3dom/src/x3dom.js'></script>
+</head>
+
+<body>
+    <h1>Spinning Cube example</h1>
+
+    <x3d width='400px' height='400px'>
+        <scene>  
+			<transform DEF='cube'>
+				<shape>
+					<appearance>
+                        <material diffuseColor='red'></material> 
+					</appearance>
+					<box></box>
+				</shape>
+			</transform>
+		  
+			<timeSensor DEF='clock' cycleInterval='5' loop='true'></timeSensor>
+			<orientationInterpolator DEF='spinThings' key='0 0.25 0.5 0.75 1' keyValue='0 1 0 0  0 1 0 1.57079  0 1 0 3.14159  0 1 0 4.71239  0 1 0 6.28319'></orientationInterpolator>
+		  
+			<ROUTE fromNode='clock' fromField='fraction_changed' toNode='spinThings' toField='set_fraction'></ROUTE>
+			<ROUTE fromNode='spinThings' fromField='value_changed' toNode='cube' toField='set_rotation'></ROUTE>
+        </scene>
+      </x3d>
+
+  </body>
+</html>
